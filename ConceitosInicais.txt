@@ -10,3 +10,5 @@ determina a estrutura hierárquica do código. Ou seja, um bloco de código devidam
 identificado proporciona maior clareza 
 e facilita a leitura, o que é essencial para 
 a eficiência do desenvovimento e manutenção do software:
+
+Organização: Os blocos de código ajudam a organizar o pensamento! 
