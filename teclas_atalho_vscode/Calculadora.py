@@ -27,7 +27,7 @@ print("Escolha 2 para SUBTRAÇÃO")
 print("Escolha 3 para DIVISÃO")
 print("Escolha 4 para EXPONENCIAÇÃO")
 print("Escolha 5 para DIVISÃO INTEIRA")
-print("Escolha 7 para MÓDULO")]
+print("Escolha 7 para MÓDULO")
 escolha = int(input('Digite o número da operação: '))
 if escolha == 1:
     print(f"O resultado da soma entre {num1} e {num2} é: ", operacao.soma())
