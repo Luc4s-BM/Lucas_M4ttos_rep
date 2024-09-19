@@ -19,7 +19,7 @@ class calculadora():
         
 num1 = int(input("Digite o seu primeiro número:  "))
 num2 = int(input("Digite o segundo número:  "))
-operação = calculadora(num1,num2)
+operação = calculadora(num1, num2)
 
 print('escolha 1 para SOMA')
 print('escolha 2 para SUBTRAÇÃO')
