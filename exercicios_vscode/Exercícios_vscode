@@ -17,7 +17,7 @@ str('nome')
 #5
 float('variavel1')
 variavel1 = 1
-print('Esse variável é tipo "FLOAT" e tem o valor de 1: %f', variavel1)
+print(f'Esse variável é tipo "FLOAT" e tem o valor de 1: {variavel1}')
 
 #6
 numero = input("Digite um número: ")
@@ -27,22 +27,24 @@ print(f"Você digitou: {numero}")
 num1 = 15
 num2 = 25
 resultado = num1 + num2
-resultado
+print(f'A soma das varáiveis resulta em: {resultado}')
+
 
 #8
 x = 50
 y = 30
 resultado_subtracao = x - y
-resultado_subtracao
+print(f'A subtração das varáiveis resulta em: {resultado_subtracao}')
+
 
 #9
 a = 6
 b = 7
 resultado_multiplicacao = a * b
-print(resultado_multiplicacao)
+print(f'A multiplicação das varáiveis resulta em: {resultado_multiplicacao}')
 
 #10
 a = 20
 b = 4
 resultado_divisao = a / b
-print(resultado_divisao)
+print(f'A divisão das varáiveis resulta em: {resultado_divisao}')
