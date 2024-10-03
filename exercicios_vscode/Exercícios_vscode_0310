@@ -1,0 +1,32 @@
+"""
+#1
+num1 = int(input("Digite um número: "))
+num2 = int(input("Digite outro número: "))
+
+if num1 > num2:
+    print(f"O primeiro número: {num1}, é maior que o segundo número: {num2}!")
+elif num2 > num1:
+    print(f"O segundo número: {num2} é maior que o primeiro número: {num1}!")   
+else:
+    print("Os dois números são iguais!")
+ 
+ 
+#2
+medico = int(input("Qual médico você deseja?\nDigite 1 para escolher o médico LUCAS.\nDigite 2 para escolher o médico TAYNAN.\nDigite 3 para escolher o médico VICTOR.\nQual a sua escolha?:"))
+
+if medico == 1:
+    print("Você escolheu o médico LUCAS!")
+elif medico == 2:
+    print("Você escolheu o médico TAYNAN!")
+elif medico == 3:
+    print("Você escolheu o médico VICTOR!")
+
+
+
+#3
+frase = int(input('"Python é uma excelente linguagem de programação!!!"\nReescreva essa frase corretamente:\n'))
+txt = "Python é uma excelente linguagem de programação!!!"
+x = txt.find("Python é uma excelente linguagem de programação!!!")
+
+print(x)
+""" 
