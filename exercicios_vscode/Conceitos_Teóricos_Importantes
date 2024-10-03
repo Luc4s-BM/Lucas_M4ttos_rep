@@ -38,9 +38,9 @@ a) 7 = 2 * 3.5 e (L ou V)
 V = V 
 V
 
-b) 7 > 2 ou 3.5 = pot(2,2)
-7 > 2 ou 3.5 = 4
-7 > 2 = V ou 3.5 = 4 = F
+b) 7 > 2 ou 7 = pot(2,2)
+7 > 2 ou 7 = 4
+7 > 2 = V ou 7 = 4 = F
 V ou F 
 V
 
@@ -56,8 +56,8 @@ d) não L ou V e rad(2 + 7) >= 3.5
 não L ou V e rad(9) >= 3.5
 não F ou V e 3 >= 3.5
 V ou V e F
-V e F
-F
+V ou F
+V
 
 
 e) 7/2 = 3.5 ou 7/2 <> 3.5
