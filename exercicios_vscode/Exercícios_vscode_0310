@@ -26,7 +26,7 @@ while True:
         print("Você escolheu o médico VICTOR!")
         break
     else:
-        print ("Digite um número válido!!!")
+        print (f"Não existe a opção: {medico}\nDigite outra opção!")
 
 
 #3
