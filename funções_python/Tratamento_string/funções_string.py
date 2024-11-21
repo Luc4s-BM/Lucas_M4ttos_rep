@@ -1,6 +1,6 @@
 #1
 
-def calcular_tamanho_string(caracteres_da_string):
+def calcular_tamanho_string(caracteres_da_string):              
     if type(caracteres_da_string) == str:
         return len(caracteres_da_string)
     else:    
