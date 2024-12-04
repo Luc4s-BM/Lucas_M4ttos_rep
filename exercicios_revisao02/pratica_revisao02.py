@@ -82,6 +82,20 @@ um valorUUID (universally unique identifier)
 identificador universalmente exclusivo.Procurar na Internet 
 por gerador online UUID p/ obter valores UUID."""
 
+import random
+def tamanho_da_senha(senha_tamanho):
+    try: 
+        tamanho_da_senha_a_ser_gerada = int(input("Digite o tamanho da senha (Max: 128): "))
+        return tamanho_da_senha_a_ser_gerada
+    except ValueError:
+        print("Erro, digite apenas números!")
+tamanho_da_senha_a_ser_gerada = tamanho_da_senha()     
+uuid_gerador_senha = '35b35f68-9687-4ca6-bb79-f59201d40b0739e5b006-f4ab-49cb-a072-6549876b35dc'
+senha_gerada = "  ".join(random.sample(uuid_gerador_senha, tamanho_da_senha_a_ser_gerada))
+print(f"Senha gerada com {tamanho_da_senha_a_ser_gerada} caracteres: {senha_gerada}")
+
+
+
 
 
 
