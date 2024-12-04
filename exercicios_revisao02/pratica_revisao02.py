@@ -4,22 +4,22 @@ subtração, multiplicação e divisão desses números. NÃO UTILIZAR
 FUNÇÃO P/ RESOLVER ESSA QUESTÃO. Se desejarem poderão
 utilizar o conceito de FString, concatenação de String, qualquer uma das
 sobrecargas de função responsável por imprimir no stdout."""
-
-def testar_caractere():
-    while True:
-        try:
-            num1 = int(input("Digite o primeiro valor: "))
-            num2 = int(input("Digite o segundo valor: "))
-            return num1, num2
-        except ValueError:
-            print("Erro: Digite apenas números.")
-num1, num2 = testar_caractere()
-soma = num1 + num2
-subtracao = num1 - num2
-multiplicacao = num1 * num2
-divisao = "Indefinido" if num2 == 0 else num1 / num2
-print(f"A soma: {soma}\nA subtração: {subtracao}\nA multiplicação: {multiplicacao}\nA divisão: {divisao}")
-
+def dois_valores_numericos():
+    def testar_caractere():
+        while True:
+            try:
+                num1 = int(input("Digite o primeiro valor: "))
+                num2 = int(input("Digite o segundo valor: "))
+                return num1, num2
+            except ValueError:
+                print("Erro: Digite apenas números.")
+    num1, num2 = testar_caractere()
+    soma = num1 + num2
+    subtracao = num1 - num2
+    multiplicacao = num1 * num2
+    divisao = "Indefinido" if num2 == 0 else num1 / num2
+    print(f"A soma: {soma}\nA subtração: {subtracao}\nA multiplicação: {multiplicacao}\nA divisão: {divisao}")
+dois_valores_numericos()
 #===========================================================================================
 
 """2) Escreva um programa que calcule o “índice de massa corporal” (IMC).
@@ -27,32 +27,32 @@ IMC = peso em quilos / altura
 2
 . Exiba o resultado na tela. Utilizar valores
 em ponto flutuante, precisão simples."""
+def questao_imc():
+    def calcular_imc(a, b):
+        imc = a / (b * b)
+        return imc
 
-def calcular_imc(a, b):
-    imc = a / (b * b)
-    return imc
-
-print("Vamos calcular seu IMC: ")
-peso = float(input("Digite seu peso (Obs: Escreva em quilos):"))
-altura = float(input("Digite sua altura (Obs: Digite em metros):"))
-imc = calcular_imc(peso ,altura)
-print(f"O resultado do seu IMC: {imc:.2f}")
-if imc > 40:
-    print("Você está muito obeso!")
-elif imc < 18.5:
-    print("Você está muito magro!")
-elif imc > 18.5 and imc < 24.9:
-    print("Você está no peso normal!")
-elif imc > 25 and imc < 29.9:
-    print("Você está com excesso de peso!")
-elif imc > 30 and imc < 34.9:
-    print("Você está com obesidade classe I!")
-elif imc > 35 and imc < 39.9 :
-    print("Você está com obesidade classe II!")
-elif imc > 40:
-    print("Você está com obesidade classe III!")
-calcular_imc(peso ,altura)
-
+    print("Vamos calcular seu IMC: ")
+    peso = float(input("Digite seu peso (Obs: Escreva em quilos):"))
+    altura = float(input("Digite sua altura (Obs: Digite em metros):"))
+    imc = calcular_imc(peso ,altura)
+    print(f"O resultado do seu IMC: {imc:.2f}")
+    if imc > 40:
+        print("Você está muito obeso!")
+    elif imc < 18.5:
+        print("Você está muito magro!")
+    elif imc > 18.5 and imc < 24.9:
+        print("Você está no peso normal!")
+    elif imc > 25 and imc < 29.9:
+        print("Você está com excesso de peso!")
+    elif imc > 30 and imc < 34.9:
+        print("Você está com obesidade classe I!")
+    elif imc > 35 and imc < 39.9 :
+        print("Você está com obesidade classe II!")
+    elif imc > 40:
+        print("Você está com obesidade classe III!")
+    calcular_imc(peso ,altura)
+questao_imc()
 #===========================================================================================
 
 
@@ -82,22 +82,92 @@ um valorUUID (universally unique identifier)
 identificador universalmente exclusivo.Procurar na Internet 
 por gerador online UUID p/ obter valores UUID."""
 
-import random
-def tamanho_da_senha(senha_tamanho):
-    try: 
-        tamanho_da_senha_a_ser_gerada = int(input("Digite o tamanho da senha (Max: 128): "))
-        return tamanho_da_senha_a_ser_gerada
-    except ValueError:
-        print("Erro, digite apenas números!")
-tamanho_da_senha_a_ser_gerada = tamanho_da_senha()     
-uuid_gerador_senha = '35b35f68-9687-4ca6-bb79-f59201d40b0739e5b006-f4ab-49cb-a072-6549876b35dc'
-senha_gerada = "  ".join(random.sample(uuid_gerador_senha, tamanho_da_senha_a_ser_gerada))
-print(f"Senha gerada com {tamanho_da_senha_a_ser_gerada} caracteres: {senha_gerada}")
+def senha_uuid():
+    import random
+    tamanho_da_senha_a_ser_gerada = int(input("Digite o tamanho da senha (Max: 128): "))
+    uuid_gerador_senha = '35b35f68-9687-4ca6-bb79-f59201d40b0739e5b006-f4ab-49cb-a072-6549876b35dc'
+    senha_gerada = "  ".join(random.sample(uuid_gerador_senha, tamanho_da_senha_a_ser_gerada))
+    print(f"Senha gerada com {tamanho_da_senha_a_ser_gerada} caracteres: {senha_gerada}")
+senha_uuid()
 
+#===========================================================================================
 
+"""5)  Crie  um  programa  que  mostra  a  data  atual,  no  formato:  dia/mês/ano 
+hora:minuto:segundo.  Funções  da  Biblioteca  Padrão  do  Python: 
+https://docs.python.org/pt-br/3/library/ poderão ser utilizadas. """
 
+import datetime 
+def relogio():
+    agora = datetime.datetime.now()
+    print(agora).strftime("%d/%m/%Y  %H:%M:%S")
 
+#===========================================================================================
 
+"""6)  Crie  2  variáveis  com  dois  valores  numéricos  inteiros  informados  pelo 
+usuário, caso o valor do primeiro número for maior do que o segundo, 
+exiba em tela uma mensagem de acordo, caso contrário, exiba em tela 
+uma  mensagem  dizendo  que  o  primeiro  valor  digitado  é  menor  que  o 
+segundo.  Os  números  informados  pelo  usuário  devem  aparecer  em 
+ambas as mensagens. """
 
+def numero_maior_que_o_outro():
+    num1 = int(input("Digite um número: "))
+    num2 = int(input("Digite outro número: "))
 
+    if num1 > num2:
+        print(f"O primeiro número: {num1}, é maior que o segundo número: {num2}!")
+    elif num2 > num1:
+        print(f"O segundo número: {num2} é maior que o primeiro número: {num1}!")   
+    else:
+        print("Os dois números são iguais!")
+numero_maior_que_o_outro()
+
+#===========================================================================================
+
+"""7)  Crie um programa que possa marcar uma consulta médica. Como opções, 
+teremos  disponíveis  apenas  03  médicos,  que  devem  ter  seus  nomes 
+exibidos  na  tela,  p/  que  possam  ser  escolhidos.  Após  a  escolha  do 
+profissional médico, exibir mensagem na tela informando que a consulta 
+foi marcada com o médico escolhido (nome do médico).  """
+
+while True:
+    
+    medico = int(input("Qual médico você deseja?\nDigite 1 para escolher o médico LUCAS.\nDigite 2 para escolher o médico TAYNAN.\nDigite 3 para escolher o médico VICTOR.\nQual a sua escolha?: "))
+
+    if medico == 1:
+        print("Você escolheu o médico LUCAS!")
+        break
+    elif medico == 2:
+        print("Você escolheu o médico TAYNAN!")
+        break
+    elif medico == 3:
+        print("Você escolheu o médico VICTOR!")
+        break
+    else:
+        print (f"Não existe a opção: {medico}\nDigite outra opção!")
+
+#===========================================================================================
+
+"""8)  Escreva um programa que verifica se uma determinada palavra consta 
+em  um  texto  de  origem.  O  texto  não  será  conhecido  pelo  usuário  que 
+usará  de  palavras  aleatórias  na  tentativa  de  adivinhar  que  palavras 
+compõem a frase oculta. Frase: "Python é uma excelente linguagem de 
+programação!!!  Se  acertar,  a  mensagem:  "A  palavra  (palavra  digitada 
+pelo usuário) está na frase". Se errar, a mensagem: "A palavra (palavra 
+digitada pelo usuário) não está na frase". Use a função "find", referenciada 
+na documentação: 
+https://docs.python.org/3/library/stdtypes.html"""
+
+def python_e_uma_otima_linguagem():
+    frase = "python é uma excelente linguagem de programação!!!"
+    
+    palavra = input("Qual palavra deseja saber se está na frase?: ").lower()
+    
+    tem_na_frase = frase.find(palavra)
+    
+    if  tem_na_frase == -1:
+        print(f"A palavra ({palavra}) não está na frase.")
+    
+    else:
+        print(f"A palavra ({palavra}) está na frase.")
 
