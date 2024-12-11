@@ -39,30 +39,109 @@ imprimir(estacoes_do_ano3)
 print("="*50)
 
 #4
+lista4 = []
+
 def lista_de_compras():
-    lista4 = []
+    print("Crie sua lista de compras (máximo 15 itens):")
     numero_do_item4 = 1
-    while numero_do_item4 < 16: 
-        item4 = input(f'-> Digite o {numero_do_item4}º item da sua lista de compras: ').strip().title()   
-        numero_do_item4 = numero_do_item4 + 1 
+    while numero_do_item4 <= 15: 
+        item4 = input(f"-> Digite o {numero_do_item4}º item da sua lista de compras: ").strip().title()
         lista4.append(item4)
-    print("Aqui está sua lista de compras: ", lista4, end=" ")
-lista_de_compras()
+        numero_do_item4 += 1
+    exibir_lista()
 
-""" Eu decidi usar o "while" junto com uma lista, achei o jeito mais simples de fazer isso. """
+#5
+lista4 = []
 
-#5 
-def menu_de_opcoes():
-    decisao = input("Deseja fazer alguma alteração na sua lista?: ").lower().strip()
-    if decisao == "sim":
-        print("hjdsvw")
-    elif decisao == "nao" or decisao == "não":
-        print("Ok, fique com a sua lista!")
+def exibir_lista():
+    print("Aqui está sua lista de compras:")
+    for i, item in enumerate(lista4, start=1):
+        print(f"{i}º - {item.capitalize()}")
 
-menu_de_opcoes()
-"""  def adicionar_item_na_lista(item5):
-    
+def incluir_item():
+    while True:
+        if len(lista4) >= 15:
+            print("Sua lista já está no limite de 15 itens! Não é possível adicionar mais.")
+            break
+        novo_item = input("Digite o item que deseja incluir (ou digite 'PRONTO' para finalizar): ").strip().title()
+        if novo_item.lower() == "pronto":
+            break
+        lista4.append(novo_item)
+    exibir_lista()
+
+def remover_item():
+    exibir_lista()
+    item_para_remover = input("Digite o nome do item que deseja remover: ").strip().title()
+    if item_para_remover in lista4:
+        lista4.remove(item_para_remover)
+        print(f"O item '{item_para_remover}' foi removido com sucesso!")
+    else:
+        print("Este item não está na lista.")
+    exibir_lista()
+
+def atualizar_item():
+    exibir_lista()
+    item_para_atualizar = input("Digite o nome do item que deseja atualizar: ").strip().title()
+    if item_para_atualizar in lista4:
+        novo_valor = input(f"Digite o novo valor para o item '{item_para_atualizar}': ").strip().title()
+        indice = lista4.index(item_para_atualizar)
+        lista4[indice] = novo_valor
+        print(f"O item '{item_para_atualizar}' foi atualizado para '{novo_valor}'.")
+    else:
+        print("Este item não está na lista.")
+    exibir_lista()
+
+def menu():
+    while True:
+        print("\nEscolha uma das opções:")
+        print("1 - Incluir um novo item")
+        print("2 - Remover um item")
+        print("3 - Atualizar um item existente")
+        print("4 - Exibir lista")
+        print("5 - Encerrar o programa")
+        opcao = input("Digite o número da opção desejada: ").strip()
+        if opcao == "1":
+            incluir_item()
+        elif opcao == "2":
+            remover_item()
+        elif opcao == "3":
+            atualizar_item()
+        elif opcao == "4":
+            exibir_lista()
+        elif opcao == "5":
+            print("Programa encerrado. Até logo!")
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+menu()
+
+#6
+linguagens_ocultas = ["C", "C++", "JavaScript", "Java", "Lua", "Python"]
+
+def adivinhar_linguagem_oculta():
+    print('Adivinhe as linguagens que constam na lista oculta! (Quando quiser encerrar digite "SAIR").')
+    while True:
+        tentativa = input("Sua tentativa: ").strip().title()
+        if tentativa in linguagens_ocultas:
+            print(f"A linguagem {tentativa} consta na lista!")
+        elif tentativa.lower() == "sair":
+            print("--- Programa encerrado ---")
+            break
+        else:
+            print(f"A linguagem {tentativa} não consta na lista!")
+adivinhar_linguagem_oculta()
+
+#7
+lista_de_medicos = ["Alice Monteiro","Lucas Almeida","Beatriz Carvalho","Gabriel Nogueira","Marina Fernandes","Rafael Costa","Sofia Martins"]
+print("Olá, com qual médico você deseja marcar uma consulta?")
+for i, lista in enumerate(lista_de_medicos, start=1):
+    print(f"{i} Dr.{lista_de_medicos}")
 
 
 
-"""
+
+
+
+
+
+
