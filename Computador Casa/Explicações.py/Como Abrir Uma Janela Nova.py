@@ -21,4 +21,3 @@ botao.pack(pady=50)
 
 # Inicia o loop principal
 janela_principal.mainloop()
-

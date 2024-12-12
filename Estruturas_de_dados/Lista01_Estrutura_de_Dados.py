@@ -16,10 +16,10 @@ dias_da_semana2 = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabádo", 
 meses_do_ano2 = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 estacoes_do_ano2 = ["Verão", "Outono"," Inverno", "Primavera"]
 data2 = [dias_da_semana2, meses_do_ano2, estacoes_do_ano2]
-def main2(lista):
-    print("Dias da Semana: ", lista[0])
-    print("Meses do Ano: ", lista[1])
-    print("Estações do Ano: ", lista[2])
+def main2(lista2):
+    print("Dias da Semana: ", lista2[0])
+    print("Meses do Ano: ", lista2[1])
+    print("Estações do Ano: ", lista2[2])
 print("Data Tipo Lista:")   
 main2(data2)
 print("="*50)
@@ -29,9 +29,9 @@ dias_da_semana3 = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sabádo", 
 meses_do_ano3 = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 estacoes_do_ano3 = ["Verão", "Outono","Inverno", "Primavera"]
 
-def imprimir(lista2):
-    print("Tamanho: ", len(lista2))
-    print("Dados: ", lista2[0], lista2[2], lista2[-1])
+def imprimir(lista3):
+    print(f"Quantos elementos: Há {len(lista3)} elementos nessa lista.")
+    print(f"Dados: 1º - {lista3[0]}, 3º - {lista3[2]}, {len(lista3)}º - {lista3[-1]}")
     
 imprimir(dias_da_semana3)
 imprimir(meses_do_ano3)
@@ -39,7 +39,7 @@ imprimir(estacoes_do_ano3)
 print("="*50)
 
 #4 - 5
-lista4 = []
+lista4 = [ "Arroz", "Feijão", "Macarrão", "Frango", "Pão", "Leite", "Ovos", "Queijo", "Manteiga", "Açúcar", "Café", "Sal", "Óleo", "Alface", "Tomate"]
 
 def exibir_lista(listax):
     if not listax:
@@ -47,17 +47,8 @@ def exibir_lista(listax):
         return
     print("Aqui está sua lista de compras:")
     for i, item in enumerate(listax, start=1):
-        print(f"{i}º - {item.capitalize()}")
-
-def lista_de_compras():
-    print("Crie sua lista de compras (máximo 15 itens no início):")
-    numero_do_item4 = 1
-    while numero_do_item4 <= 15: 
-        item4 = input(f"-> Digite o {numero_do_item4}º item da sua lista de compras: ").strip().title()
-        lista4.append(item4)
-        numero_do_item4 += 1
-    exibir_lista(lista4)
-
+        print(f"{i} - {item.capitalize()}")
+    print(f"A sua lista contém {len(listax)} itens.")
 def incluir_item():
     while True:
         novo_item = input("Digite o item que deseja incluir (ou digite 'PRONTO' para finalizar): ").strip().title()
@@ -110,10 +101,8 @@ def menu():
             break
         else:
             print("Opção inválida. Tente novamente.")
-
-lista_de_compras()
-print("=" * 50)
 menu()
+print("=" * 50)
 
 #6
 linguagens_ocultas = ["C", "C++", "JavaScript", "Java", "Lua", "Python"]
@@ -133,8 +122,7 @@ adivinhar_linguagem_oculta()
 print("="*50)
 
 #7
-lista_de_medicos = [ "alice monteiro", "lucas almeida", "beatriz carvalho", "gabriel nogueira", "marina fernandes", "rafael costa", "sofia martins"]
-
+lista_de_medicos = ["alice monteiro", "lucas almeida", "beatriz carvalho", "gabriel nogueira", "marina fernandes", "rafael costa", "sofia martins"]
 
 def imprimir_lista_de_medicos():
     print("Olá, com qual médico você deseja marcar uma consulta?")
@@ -156,6 +144,7 @@ def escolher_medico():
             print("Erro, opção inválida! Tente novamente.")
 
 escolher_medico()
+print("="*50)
 
 
 

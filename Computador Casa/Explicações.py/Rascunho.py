@@ -51,9 +51,9 @@ print("Fodase")
 
 x = 'apple', 'banana', 'cherry'
 y = enumerate(x, start=1)
-print(list(y))"""
+print(list(y))
 
-"""def validar_dados():
+def validar_dados():
     a = input("Digite um número: ")
     try:
         str(a)
@@ -62,7 +62,7 @@ print(list(y))"""
         return validar_dados()
 b = validar_dados()
 
-"""
+
 
 def validar_frase():
     while True:
@@ -74,3 +74,65 @@ def validar_frase():
 
 frase = validar_frase()
 print(f"Você digitou: '{frase}'")
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
