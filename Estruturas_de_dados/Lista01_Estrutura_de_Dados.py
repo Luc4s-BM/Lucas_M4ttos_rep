@@ -49,7 +49,8 @@ def lista_de_compras():
         lista4.append(item4)
         numero_do_item4 += 1
     exibir_lista()
-
+lista_de_compras()
+print("="*50)
 #5
 lista4 = []
 
@@ -114,6 +115,7 @@ def menu():
         else:
             print("Opção inválida. Tente novamente.")
 menu()
+print("="*50)
 
 #6
 linguagens_ocultas = ["C", "C++", "JavaScript", "Java", "Lua", "Python"]
@@ -130,15 +132,37 @@ def adivinhar_linguagem_oculta():
         else:
             print(f"A linguagem {tentativa} não consta na lista!")
 adivinhar_linguagem_oculta()
+print("="*50)
 
 #7
-lista_de_medicos = ["Alice Monteiro","Lucas Almeida","Beatriz Carvalho","Gabriel Nogueira","Marina Fernandes","Rafael Costa","Sofia Martins"]
+lista_de_medicos = ["Alice Monteiro", "Lucas Almeida", "Beatriz Carvalho", "Gabriel Nogueira", "Marina Fernandes", "Rafael Costa", "Sofia Martins"]
 print("Olá, com qual médico você deseja marcar uma consulta?")
-for i, lista in enumerate(lista_de_medicos, start=1):
-    print(f"{i} Dr.{lista_de_medicos}")
-
-
-
+for i, medico in enumerate(lista_de_medicos, start=1):  
+    print(f"{i}. {medico}") 
+def escolher_medico():
+    while True:
+        escolha = input("Digite o nome do médico que vocâ deseja marcar sua consulta (Digite o número respectivos ao medico desejado): ")
+        if escolha == "1":
+            print(f"Consulta com o(a) médico {lista_de_medicos[0]} marcada.")
+            break
+        elif escolha == "2":
+            print(f"Consulta com o(a) médico {lista_de_medicos[1]} marcada.")
+            break
+        elif escolha == "3":
+            print(f"Consulta com o(a) médico {lista_de_medicos[2]} marcada.")
+            break
+        elif escolha == "4":
+            print(f"Consulta com o(a) médico {lista_de_medicos[3]} marcada.")
+            break
+        elif escolha == "5":        
+            print(f"Consulta com o(a) médico {lista_de_medicos[4]} marcada.")
+            break
+        elif escolha == "6":
+            print(f"Consulta com o(a) médico {lista_de_medicos[5]} marcada.")
+            break
+        else:
+            print("Digite uma opção válida!")
+escolher_medico()
 
 
 
