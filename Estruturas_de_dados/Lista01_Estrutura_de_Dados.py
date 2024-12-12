@@ -38,50 +38,46 @@ imprimir(meses_do_ano3)
 imprimir(estacoes_do_ano3)
 print("="*50)
 
-#4
+#4 - 5
 lista4 = []
 
+def exibir_lista(listax):
+    if not listax:
+        print("Sua lista de compras está vazia!")
+        return
+    print("Aqui está sua lista de compras:")
+    for i, item in enumerate(listax, start=1):
+        print(f"{i}º - {item.capitalize()}")
+
 def lista_de_compras():
-    print("Crie sua lista de compras (máximo 15 itens):")
+    print("Crie sua lista de compras (máximo 15 itens no início):")
     numero_do_item4 = 1
     while numero_do_item4 <= 15: 
         item4 = input(f"-> Digite o {numero_do_item4}º item da sua lista de compras: ").strip().title()
         lista4.append(item4)
         numero_do_item4 += 1
-    exibir_lista()
-lista_de_compras()
-print("="*50)
-#5
-lista4 = []
-
-def exibir_lista():
-    print("Aqui está sua lista de compras:")
-    for i, item in enumerate(lista4, start=1):
-        print(f"{i}º - {item.capitalize()}")
+    exibir_lista(lista4)
 
 def incluir_item():
     while True:
-        if len(lista4) >= 15:
-            print("Sua lista já está no limite de 15 itens! Não é possível adicionar mais.")
-            break
         novo_item = input("Digite o item que deseja incluir (ou digite 'PRONTO' para finalizar): ").strip().title()
         if novo_item.lower() == "pronto":
             break
         lista4.append(novo_item)
-    exibir_lista()
+    exibir_lista(lista4)
 
 def remover_item():
-    exibir_lista()
+    exibir_lista(lista4)
     item_para_remover = input("Digite o nome do item que deseja remover: ").strip().title()
     if item_para_remover in lista4:
         lista4.remove(item_para_remover)
         print(f"O item '{item_para_remover}' foi removido com sucesso!")
     else:
         print("Este item não está na lista.")
-    exibir_lista()
+    exibir_lista(lista4)
 
 def atualizar_item():
-    exibir_lista()
+    exibir_lista(lista4)
     item_para_atualizar = input("Digite o nome do item que deseja atualizar: ").strip().title()
     if item_para_atualizar in lista4:
         novo_valor = input(f"Digite o novo valor para o item '{item_para_atualizar}': ").strip().title()
@@ -90,7 +86,7 @@ def atualizar_item():
         print(f"O item '{item_para_atualizar}' foi atualizado para '{novo_valor}'.")
     else:
         print("Este item não está na lista.")
-    exibir_lista()
+    exibir_lista(lista4)
 
 def menu():
     while True:
@@ -108,14 +104,16 @@ def menu():
         elif opcao == "3":
             atualizar_item()
         elif opcao == "4":
-            exibir_lista()
+            exibir_lista(lista4)
         elif opcao == "5":
             print("Programa encerrado. Até logo!")
             break
         else:
             print("Opção inválida. Tente novamente.")
+
+lista_de_compras()
+print("=" * 50)
 menu()
-print("="*50)
 
 #6
 linguagens_ocultas = ["C", "C++", "JavaScript", "Java", "Lua", "Python"]
@@ -135,34 +133,30 @@ adivinhar_linguagem_oculta()
 print("="*50)
 
 #7
-lista_de_medicos = ["Alice Monteiro", "Lucas Almeida", "Beatriz Carvalho", "Gabriel Nogueira", "Marina Fernandes", "Rafael Costa", "Sofia Martins"]
-print("Olá, com qual médico você deseja marcar uma consulta?")
-for i, medico in enumerate(lista_de_medicos, start=1):  
-    print(f"{i}. {medico}") 
+lista_de_medicos = [ "alice monteiro", "lucas almeida", "beatriz carvalho", "gabriel nogueira", "marina fernandes", "rafael costa", "sofia martins"]
+
+
+def imprimir_lista_de_medicos():
+    print("Olá, com qual médico você deseja marcar uma consulta?")
+    for i, medico in enumerate(lista_de_medicos, start=1):
+        print(f"{i}. {medico.title()}")
+
 def escolher_medico():
     while True:
-        escolha = input("Digite o nome do médico que vocâ deseja marcar sua consulta (Digite o número respectivos ao medico desejado): ")
-        if escolha == "1":
-            print(f"Consulta com o(a) médico {lista_de_medicos[0]} marcada.")
+        imprimir_lista_de_medicos()
+        escolha = input("Digite o número ou nome do médico: ").strip().lower()
+        
+        if escolha.isdigit() and 1 <= int(escolha) <= len(lista_de_medicos):
+            print(f"Consulta com {lista_de_medicos[int(escolha) - 1]} marcada.")
             break
-        elif escolha == "2":
-            print(f"Consulta com o(a) médico {lista_de_medicos[1]} marcada.")
-            break
-        elif escolha == "3":
-            print(f"Consulta com o(a) médico {lista_de_medicos[2]} marcada.")
-            break
-        elif escolha == "4":
-            print(f"Consulta com o(a) médico {lista_de_medicos[3]} marcada.")
-            break
-        elif escolha == "5":        
-            print(f"Consulta com o(a) médico {lista_de_medicos[4]} marcada.")
-            break
-        elif escolha == "6":
-            print(f"Consulta com o(a) médico {lista_de_medicos[5]} marcada.")
+        elif escolha in lista_de_medicos:
+            print(f"Consulta com {escolha.title()} marcada.")
             break
         else:
-            print("Digite uma opção válida!")
+            print("Erro, opção inválida! Tente novamente.")
+
 escolher_medico()
+
 
 
 
