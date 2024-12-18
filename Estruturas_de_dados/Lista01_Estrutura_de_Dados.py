@@ -145,10 +145,3 @@ def escolher_medico():
 
 escolher_medico()
 print("="*50)
-
-
-
-
-
-
-

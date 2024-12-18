@@ -67,8 +67,19 @@ def quantidade_de_eventos():
     print("\nEventos cadastrados:")
     for i, evento in enumerate(eventos, start=1):
         print(f"{i}. Nome: {evento[0]}, Vagas restantes: {evento[1]} pessoas.")
-
+        
+def excluir_alunos_do_evento(alunos1):
+    while True:    
+        escolha_do_evento_pra_excluir = input("Qual evento você deseja excluir os alunos dela?: ").strip().lower()
+        if escolha_do_evento_pra_excluir in eventos:
+            escolha_excluir_aluno = input(f"Você realmente deseja excluir os alunos do evento {evento}?: ").strip().lower()
+            if escolha_excluir_aluno == "sim":
+                print(f"{participantes_aleatorios} alunos removidos do evento {evento}")
+                break
+            elif escolha_excluir_aluno == "não" or escolha_excluir_aluno == "nao":
+                print("")
+        else:
+            print(f"O evento {evento} não está cadastrado.")
 
 se_auto_cadastrar_nos_eventos()   
-
 quantidade_de_eventos()
