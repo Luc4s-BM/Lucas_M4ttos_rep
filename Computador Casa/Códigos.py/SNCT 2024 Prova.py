@@ -50,18 +50,25 @@ def se_auto_cadastrar_nos_eventos(eventos):
         else:
             print("Opção inválida. Por favor, escolha um número válido.")
         
-"""def excluir_alunos_do_evento(alunos1):
+def excluir_alunos_do_evento(participantes_aleatoriosP, eventosP):
     while True:    
         escolha_do_evento_pra_excluir = input("Qual evento você deseja excluir os alunos dela?: ").strip().lower()
-        if escolha_do_evento_pra_excluir in eventos:
-            escolha_excluir_aluno = input(f"Você realmente deseja excluir os alunos do evento {evento}?: ").strip().lower()
+        if escolha_do_evento_pra_excluir in eventosP:
+            escolha_excluir_aluno = input(f"Você realmente deseja excluir os alunos do evento {eventosP}?: ").strip().lower()
             if escolha_excluir_aluno == "sim":
-                print(f"{participantes_aleatorios} alunos removidos do evento {evento}")
+                print(f"{participantes_aleatoriosP} alunos removidos do evento {eventosP}")
                 break
             elif escolha_excluir_aluno == "não" or escolha_excluir_aluno == "nao":
                 print("")
         else:
-            print(f"O evento {evento} não está cadastrado.")
+            print(f"O evento {eventosP} não está cadastrado.")
+
+def excluir_eventos_da_lista():
+    while True:
+        escolha_de_alunos_para_excluir = input("Digite o nome do evento para excluir: ")
+        if escolha_de_alunos_para_excluir in 
+        
+
 
 def menu():
     print("Qual opção você deseja executar?\n1 - Cadastrar algum evento.\n2 - Se auto-cadastrar em algum evento.\n3 - Excluir alunos de algum evento.\n4 - Excluir um evento da lista de eventos.")
@@ -71,5 +78,6 @@ def menu():
     elif escolha == 2:
         se_auto_cadastrar_nos_eventos()   
     elif escolha == 3:
-        excluir_alunos_do_evento()
-    elif escolha == 4:"""
+        excluir_alunos_do_evento(participantes_aleatorios, eventos)
+    elif escolha == 4:
+        excluir_eventos_da_lista()
