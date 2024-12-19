@@ -1,3 +1,5 @@
+from custom_utils import utils
+
 #1
 def main(tupla):
     print("Dias da Semana: ", tupla[0])
@@ -18,6 +20,10 @@ def imprimir(lista3):
 def questao4():
     lista4 = [ "Arroz", "Feijão", "Macarrão", "Frango", "Pão", "Leite", "Ovos", "Queijo", "Manteiga", "Açúcar", "Café", "Sal", "Óleo", "Alface", "Tomate"]
 
+    def exibir_lista(lista):
+        print("Aqui está sua lista atual: ")
+        for i, lista in enumerate(lista, start= 1):
+            print("- ", lista)
     def incluir_item():
         while True:
             novo_item = input("Digite o item que deseja incluir (ou digite 'PRONTO' para finalizar): ").strip().title()
@@ -73,6 +79,7 @@ def questao4():
     menu()
 
 #6
+linguagens_ocultas = ["C", "C++", "JavaScript", "Java", "Lua", "Python"]
 def adivinhar_linguagem_oculta():
     print('Adivinhe as linguagens que constam na lista oculta! (Quando quiser encerrar digite "SAIR").')
     while True:
@@ -85,12 +92,69 @@ def adivinhar_linguagem_oculta():
         else:
             print(f"A linguagem {tentativa} não consta na lista!")
 
+#7 
+lista_de_medicos = ["lucas", "joão", "ana", "júlia", "guilherme"]
 
+def imprimir_lista_medicos():
+    for i, medico in enumerate(lista_de_medicos, start=1):
+        print(f"{i}. {medico.capitalize()}")
 
+def escolher_medico():
+    while True:
+        imprimir_lista_medicos()
+        escolha = input("Digite o número ou o nome do médico: ")
+        if escolha.isdigit():
+            escolha = int(escolha)
+            if 1 <= escolha <= len(lista_de_medicos):
+                print(f"Consulta com o(a) médico(a) {lista_de_medicos[escolha-1].capitalize()} marcada!")
+                break
+            else:
+                print("Número inválido! Tente novamente.")
+        elif escolha.lower() in [medico.lower() for medico in lista_de_medicos]:
+            print(f"Consulta com o(a) médico(a) {escolha.capitalize()} marcada!")
+            break
+        else:
+            print("Digite um número ou nome válido!")
 
+#8
+produtos_precos = {
+    "Arroz": 5.50, "Feijão": 7.30, "Macarrão": 4.20, "Frango": 12.80,
+    "Pão": 3.00, "Leite": 4.50, "Ovos": 10.00, "Queijo": 15.90,
+    "Manteiga": 8.20, "Açúcar": 3.70, "Café": 9.50, "Sal": 2.30,
+    "Óleo": 7.00, "Alface": 2.50, "Tomate": 5.80
+}
 
+#9
+def verificar_produto():
+    produto_digitado = input("Informe o nome de um produto: ").strip().title()
+    
+    if produto_digitado in produtos_precos:
+        print(f"O item '{produto_digitado}' faz parte da lista de supermercado.")
+    else:
+        print(f"O item '{produto_digitado}' NÃO faz parte da lista de supermercado.")
+verificar_produto()
 
+#10
+cadastro_cliente = {
+    "Nome": "Maria Silva",
+    "Idade": 28,
+    "sexo": "Feminino",
+    "EstAdo Civil": "Solteira",
+    "Nacionalidade": "Brasileira",
+    "Faixa de Renda": "R$ 2.000 - R$ 3.000",
+    "Endereço": "Cracolândia, 123, São Paulo - SP",
+    "Telefone": "(11) 98765-4321",
+    "Email": "maria.silva@email.com"
+}
 
+def exibir_cadastro(cadastro):
+    print("Cadastro do Cliente:")
+    for chave, valor in cadastro.items():
+        print(f"{chave}: {valor}")
+
+exibir_cadastro(cadastro_cliente)
+
+#11
 
 
 

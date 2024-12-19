@@ -49,26 +49,8 @@ def se_auto_cadastrar_nos_eventos(eventos):
             break
         else:
             print("Opção inválida. Por favor, escolha um número válido.")
-
-def quantidade_de_eventos():
-    eventos = []
-    while True:
-        quantidade = input("Quantos eventos você irá cadastrar?: ").strip()
-        quantidade = avaliar_entrada_de_dadosINT(quantidade)
-        if quantidade is not None and quantidade > 0:
-            for i in range(1, quantidade + 1):
-                print(f"\n--- Cadastro do Evento {i}/{quantidade} ---")
-                evento = cadastrar_evento()
-                eventos.append(evento)
-            break
-        else:
-            print("Por favor, digite uma quantidade válida (maior que 0).")
-
-    print("\nEventos cadastrados:")
-    for i, evento in enumerate(eventos, start=1):
-        print(f"{i}. Nome: {evento[0]}, Vagas restantes: {evento[1]} pessoas.")
         
-def excluir_alunos_do_evento(alunos1):
+"""def excluir_alunos_do_evento(alunos1):
     while True:    
         escolha_do_evento_pra_excluir = input("Qual evento você deseja excluir os alunos dela?: ").strip().lower()
         if escolha_do_evento_pra_excluir in eventos:
@@ -81,5 +63,13 @@ def excluir_alunos_do_evento(alunos1):
         else:
             print(f"O evento {evento} não está cadastrado.")
 
-se_auto_cadastrar_nos_eventos()   
-quantidade_de_eventos()
+def menu():
+    print("Qual opção você deseja executar?\n1 - Cadastrar algum evento.\n2 - Se auto-cadastrar em algum evento.\n3 - Excluir alunos de algum evento.\n4 - Excluir um evento da lista de eventos.")
+    escolha = int(input("Digite sua escolha: "))
+    if escolha == 1:
+        cadastrar_evento()
+    elif escolha == 2:
+        se_auto_cadastrar_nos_eventos()   
+    elif escolha == 3:
+        excluir_alunos_do_evento()
+    elif escolha == 4:"""
