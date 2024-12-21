@@ -67,7 +67,7 @@ def validar_entrada5():
         return int(valor)
     except ValueError:
         print("Erro! Isso não é um número válido. Tente novamente.")
-        return validar_entrada5()  # Recursão
+        return validar_entrada5() 
 
 numero5 = validar_entrada5()
 print(f"Você digitou o número: {numero5}")
