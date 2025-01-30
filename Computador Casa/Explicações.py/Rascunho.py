@@ -74,20 +74,20 @@ def validar_frase():
 
 frase = validar_frase()
 print(f"Você digitou: '{frase}'")
+
+
+def validarint(inteiro):
+    while True:
+        try:
+            return int(inteiro)
+        except ValueError:
+            inteiro = input("Digite um número!: ")
+
+def entrada():
+    num1 = validarint(input("Digite um número: "))
+            
+entrada()
 """
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

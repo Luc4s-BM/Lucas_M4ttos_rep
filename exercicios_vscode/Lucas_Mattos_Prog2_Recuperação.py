@@ -7,14 +7,6 @@ def validar_entradaINT(entrada):
         except ValueError:
             entrada = input("Digite um valor válido: ")
 
-def exibir_lista_de_eventos():
-    if not eventos:
-        print("Não há eventos cadastrados.")
-    else:
-        print("\nLista de eventos cadastrados:")
-        for i, evento in enumerate(eventos, start=1):
-            print(f'{i}. Nome: {evento["nome"].capitalize()} - Capacidade: {evento["capacidade"]} pessoas - Vagas restantes: {evento["capacidade"] - evento["alunos"]}')
-
 def cadastrar_eventos():
     while True:
         evento = input("Digite o nome do evento: ").strip().lower()
@@ -34,6 +26,14 @@ def cadastrar_eventos():
         eventos.append(evento_cadastrado)
         print(f'Evento "{evento.capitalize()}" cadastrado com sucesso, com a capacidade máxima de {capacidade_de_pessoas} pessoas!')
         break
+
+def exibir_lista_de_eventos():
+    if not eventos:
+        print("Não há eventos cadastrados.")
+    else:
+        print("\nLista de eventos cadastrados:")
+        for i, evento in enumerate(eventos, start=1):
+            print(f'{i}. Nome: {evento["nome"].capitalize()} - Capacidade: {evento["capacidade"]} pessoas - Vagas restantes: {evento["capacidade"] - evento["alunos"]}')
 
 def add_alunos_interessados_no_evento():
     if not eventos:

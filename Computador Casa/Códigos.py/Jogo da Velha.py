@@ -21,7 +21,7 @@ def desenhar_tabuleiro():
     for i in range(1, 3):
         pygame.draw.line(tela, PRETO, (0, i * TAMANHO_CELULA), (LARGURA, i * TAMANHO_CELULA), 3)
         pygame.draw.line(tela, PRETO, (i * TAMANHO_CELULA, 0), (i * TAMANHO_CELULA, ALTURA), 3)
-
+        
 
 def desenhar_pecas():
     for i in range(3):
