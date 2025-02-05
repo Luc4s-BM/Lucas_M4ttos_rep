@@ -58,7 +58,7 @@ def cadastrar_evento_arquivo():
     try:
         #pega o diretório atual e concatena o nome do arquivoa ser criado\ aberto
         #se houver espaços em branco no caminho absoluto,este deve ser passado como string (entre aspas)
-        diretorio_atual_pasta = "" + os.gtcwd()+ "/" + arquivo_evento + ""
+        diretorio_atual_pasta = "" + os.getcwd()+ "/" + arquivo_evento + ""
         if arquivo_existe(diretorio_atual_pasta):
             #se o arquivo existe, abre no modo append, ou seja, adicionar conteúdo ao final do arquivo
             fevento = open(arquivo_evento, "a")
@@ -96,7 +96,6 @@ def exibir_evento_arquivo():
         Fevento.close()
     except Exception as erroArquivo:
         print(f"Erro ao ler arquivo: {erroArquivo}")
-        
 #Fazer validação dos dados e tratamento de erro
 def cadastrar_evento():
     titulo          = input('\nDIGITE O NOME DO EVENTO: ').title().strip()
