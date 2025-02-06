@@ -1,3 +1,5 @@
+import os
+
 eventos = []
 
 def validar_entradaINT(entrada):
@@ -5,7 +7,7 @@ def validar_entradaINT(entrada):
         try:
             return int(entrada)
         except ValueError:
-            entrada = input("Digite um valor válido: ")
+            entrada = input("Digite um valor válido!: ")
 
 def cadastrar_eventos():
     while True:
@@ -18,11 +20,16 @@ def cadastrar_eventos():
             capacidade_de_pessoas = validar_entradaINT(input(f'Digite a quantidade máxima de pessoas para o evento "{evento.capitalize()}": '))
             if capacidade_de_pessoas <= 0:
                 print("A capacidade precisa ser um número inteiro positivo. Tente novamente.")
-        for i in eventos:
-            if i["nome"] == evento:
-                print(f'O evento "{evento.capitalize()}" já está cadastrado.')
-                return
-        evento_cadastrado = {"nome": evento, "capacidade": capacidade_de_pessoas, "alunos": 0}
+        if any(i["nome"] == evento for i in eventos):
+            print(f'O evento "{evento.capitalize()}" já está cadastrado.')
+            return
+            
+        evento_cadastrado = {
+            "nome": evento, 
+            "capacidade": capacidade_de_pessoas, 
+            "alunos": 0
+        }
+    
         eventos.append(evento_cadastrado)
         print(f'Evento "{evento.capitalize()}" cadastrado com sucesso, com a capacidade máxima de {capacidade_de_pessoas} pessoas!')
         break
@@ -33,7 +40,13 @@ def exibir_lista_de_eventos():
     else:
         print("\nLista de eventos cadastrados:")
         for i, evento in enumerate(eventos, start=1):
-            print(f'{i}. Nome: {evento["nome"].capitalize()} - Capacidade: {evento["capacidade"]} pessoas - Vagas restantes: {evento["capacidade"] - evento["alunos"]}')
+            print(f'{i}. Evento: {evento["nome"].capitalize()} - Capacidade: {evento["capacidade"]} pessoas - Vagas restantes: {evento["capacidade"] - evento["alunos"]} vagas')
+
+def buscar_evento(nome_evento):
+    for evento in eventos:
+        if evento["nome"] == nome_evento:
+            return evento
+    return None
 
 def add_alunos_interessados_no_evento():
     if not eventos:
@@ -42,11 +55,7 @@ def add_alunos_interessados_no_evento():
     while True:
         exibir_lista_de_eventos()
         escolher_evento_cadastrado = input("Digite o nome do evento para adicionar os alunos interessados: ").strip().lower()
-        evento_encontrado = None
-        for evento in eventos:
-            if evento["nome"] == escolher_evento_cadastrado:
-                evento_encontrado = evento
-                break
+        evento_encontrado = buscar_evento(escolher_evento_cadastrado)
         if evento_encontrado is not None:
             quantidade_de_alunos = None
             while quantidade_de_alunos is None:
@@ -66,11 +75,7 @@ def excluir_evento_cadastrado():
         return
     exibir_lista_de_eventos()
     evento = input("Digite o nome do evento para excluir: ").strip().lower()
-    evento_encontrado = None
-    for i in eventos:
-        if i["nome"] == evento:
-            evento_encontrado = i
-            break
+    evento_encontrado = buscar_evento(evento)
     if evento_encontrado:
         if evento_encontrado["alunos"] > 0:
             print(f"O evento '{evento.capitalize()}' ainda tem alunos cadastrados e não pode ser excluído!")
@@ -86,11 +91,7 @@ def excluir_alunos_cadastrados_e_atualizar():
         return
     exibir_lista_de_eventos()
     escolha_evento_para_excluir_alunos = input("Digite o nome do evento para excluir os alunos: ").strip().lower()
-    evento_encontrado = None
-    for i in eventos:
-        if i["nome"] == escolha_evento_para_excluir_alunos:
-            evento_encontrado = i
-            break
+    evento_encontrado = buscar_evento(escolha_evento_para_excluir_alunos)
     if evento_encontrado:
         if evento_encontrado["alunos"] > 0:
             print(f'{evento_encontrado["alunos"]} alunos removidos do evento "{escolha_evento_para_excluir_alunos.capitalize()}" com sucesso!')
@@ -108,6 +109,15 @@ def resumo_da_participacao_dos_alunos():
         for i, evento in enumerate(eventos, start=1):
             print(f'{i}. Evento: {evento["nome"].capitalize()} - Participantes: {evento["alunos"]} alunos')
 
+def imprimir_resumo_scnt():
+    with open("exercicios_vscode/Resultado da SCNT 2024.txt", "w") as arquivo:
+        if not eventos:
+            arquivo.write("Não houve eventos cadastrados.\n")
+        else:
+            arquivo.write("--- RESUMO SNCT 2024 ---\n")
+            for evento in eventos:
+                arquivo.write(f'Evento: {evento["nome"].capitalize()} - Participantes: {evento["alunos"]} alunos\n')
+
 def menu_de_opcoes():    
     while True:
         escolha = input("""--- SNCT 2024 ---
@@ -116,7 +126,7 @@ def menu_de_opcoes():
 3 - Cadastrar alunos em um evento.
 4 - Excluir alunos cadastrados no evento
 5 - Exibir lista de eventos e alunos cadastrados.
-6 - Digite "Sair" para encerrar e mostrar o resumo dos eventos.
+6 - Digite "Sair" para encerrar e imprimir resumo dos eventos.
 Digite sua opção: """).strip().lower()
         if escolha == "1":
             cadastrar_eventos()
@@ -140,6 +150,8 @@ Digite sua opção: """).strip().lower()
 
         elif escolha == "6" or escolha == "sair":
             resumo_da_participacao_dos_alunos()
+            imprimir_resumo_scnt()
+            print('Impressão passada para o arquivo: "Resultado da SCNT 2024".')
             print("### FIM DO PROGRAMA ###")
             break
         else: 
