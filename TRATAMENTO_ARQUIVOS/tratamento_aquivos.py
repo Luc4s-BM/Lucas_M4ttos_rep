@@ -61,13 +61,13 @@ def cadastrar_evento_arquivo():
         diretorio_atual_pasta = "" + os.getcwd()+ "/" + arquivo_evento + ""
         if arquivo_existe(diretorio_atual_pasta):
             #se o arquivo existe, abre no modo append, ou seja, adicionar conteúdo ao final do arquivo
-            fevento = open(arquivo_evento, "a")
+               fevento = open(arquivo_evento, "a")
         else:
             #o arquivo não existe, e será aberto no modo WRITE, ou seja, um arquivo em branco, sem conteudo
             fevento = open(arquivo_evento, "w")
             #escreve na primeira linha o nome das colunas que identifica as informações
             nome_colunas = "Nome do Evento, Capacidade, Vagas restantes \n"
-            
+         
             # o conteudo do arquivo será gravado como string
             linha = [titulo
             ,   ","
@@ -109,7 +109,28 @@ def cadastrar_evento():
 
     #Armazena, na lista de dicionários, o evento novo criado
     eventos_cadastrados.append(evento)
-    
+     
+def excluir_evento_arquivo(nome_evento):
+    registro_arquivo = []    
+    try:
+        diretorio_atual_pasta = "" + os.getcwd()+ "/" + arquivo_evento + ""
+        if arquivo_existe(diretorio_atual_pasta):
+            with open(diretorio_atual_pasta, "r") as arquivoDeEventos:
+                registro_arquivo = arquivoDeEventos.readlines()
+            if len(registro_arquivo) > 0:            
+                for indice_linha in range(len(registro_arquivo)):
+                    linha = registro_arquivo[indice_linha]                                                                 
+                    if linha.find(nome_evento) >= 0:
+                        #Encontrou evento e exclui da lista de eventos
+                        registro_arquivo.pop(indice_linha)
+            if len(registro_arquivo > 0):
+                with open(diretorio_atual_pasta, "w") as arquivo_alterado:
+                    arquivo_alterado.writelines(registro_arquivo)        
+        else:
+            print("Não há eventos para excluir.")
+    except Exception as erroArquivo:
+        print(f"Erro na manipulação do Arquivo {erroArquivo}")
+
 #Fazer validação dos dados e tratamento de erro
 def cadastrar_aluno():
     nome        = input('\nDIGITE O NOME DO ALUNO: ').strip()
@@ -184,7 +205,7 @@ def executar_menu():
         elif opcaoDigitada == "3":
             inscrever_aluno_curso()
         
-        elif opcaoDigitada == "4":
+        elif opcaoDigitada == "4":  
             exibir_eventos_cadastrados()
         
         elif opcaoDigitada == "5":
@@ -194,8 +215,9 @@ def executar_menu():
             exibir_inscricoes_efetuadas()
         
         elif opcaoDigitada == "7":
+            excluir_evento_arquivo()
+        elif opcaoDigitada == "8":
             break
-                
         else:
             print(f"{opcaoDigitada} - OPÇÃO INVÁLIDA DE MENU.")
 

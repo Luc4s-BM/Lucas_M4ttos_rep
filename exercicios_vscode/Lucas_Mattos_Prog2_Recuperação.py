@@ -117,6 +117,26 @@ def imprimir_resumo_scnt():
             arquivo.write("--- RESUMO SNCT 2024 ---\n")
             for evento in eventos:
                 arquivo.write(f'Evento: {evento["nome"].capitalize()} - Participantes: {evento["alunos"]} alunos\n')
+                
+def excluir_impressão():
+    escolha_de_tipo_de_arquivo = input("""Qual o tipo de arquivo que você quer excluir?
+1 - .txt
+2 - .pdf
+3 - .doc
+4 - .html
+Digite sua escolha: """)
+    if escolha_de_tipo_de_arquivo == "1" or escolha_de_tipo_de_arquivo == "txt" or escolha_de_tipo_de_arquivo == ".txt":
+        os.remove("exercicios_vscode/Resultado da SCNT 2024.txt")
+        print("Arquivo excluído com sucesso!")
+    elif escolha_de_tipo_de_arquivo == "2" or escolha_de_tipo_de_arquivo == "pdf" or escolha_de_tipo_de_arquivo == ".pdf":
+        os.remove("exercicios_vscode/Resultado da SCNT 2024.pdf")
+        print("Arquivo excluído com sucesso!")
+    elif escolha_de_tipo_de_arquivo == "3" or escolha_de_tipo_de_arquivo == "doc" or escolha_de_tipo_de_arquivo == ".doc":
+        os.remove("exercicios_vscode/Resultado da SCNT 2024.doc")
+        print("Arquivo excluído com sucesso!")
+    elif escolha_de_tipo_de_arquivo == "4" or escolha_de_tipo_de_arquivo == "html" or escolha_de_tipo_de_arquivo == ".html":
+        os.remove("exercicios_vscode/Resultado da SCNT 2024.html")
+        print("Arquivo excluído om sucesso!")
 
 def menu_de_opcoes():    
     while True:
@@ -124,10 +144,12 @@ def menu_de_opcoes():
 1 - Cadastrar evento.
 2 - Excluir evento cadastrado.
 3 - Cadastrar alunos em um evento.
-4 - Excluir alunos cadastrados no evento
+4 - Excluir alunos cadastrados no evento.
 5 - Exibir lista de eventos e alunos cadastrados.
-6 - Digite "Sair" para encerrar e imprimir resumo dos eventos.
+6 - Excluir impresões doevento anteriores.
+7 - Digite "Sair" para encerrar e imprimir resumo dos eventos.
 Digite sua opção: """).strip().lower()
+        
         if escolha == "1":
             cadastrar_eventos()
             print("="*70)
@@ -148,7 +170,10 @@ Digite sua opção: """).strip().lower()
             exibir_lista_de_eventos()
             print("="*70)
 
-        elif escolha == "6" or escolha == "sair":
+        elif escolha == "6":
+            excluir_impressão()
+            
+        elif escolha == "7" or escolha == "sair":
             resumo_da_participacao_dos_alunos()
             imprimir_resumo_scnt()
             print('Impressão passada para o arquivo: "Resultado da SCNT 2024".')
