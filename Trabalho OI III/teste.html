@@ -3,57 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reconhecimento Facial</title>
+    <title>Reconhecimento Facial no Navegador</title>
+    <style>
+        #canvas {
+            position: absolute;
+        }
+        #result {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h2>Reconhecimento Facial</h2>
-
-    <!-- Webcam para captura de foto -->
-    <video id="webcam" width="640" height="480" autoplay></video>
-    <button id="captureButton">Capturar Imagem</button>
-
-    <canvas id="canvas" style="display:none;"></canvas>
+    <h2>Reconhecimento Facial com FaceAPI.js</h2>
+    <video id="webcam" width="640" height="480" autoplay muted></video>
+    <button id="startRecognition">Iniciar Reconhecimento</button>
+    <button id="captureFace">Capturar Rosto</button>
     <div id="result"></div>
-
+    
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+    
     <script>
-        const captureButton = document.getElementById('captureButton');
-        const webcam = document.getElementById('webcam');
-        const canvas = document.getElementById('canvas');
+        const video = document.getElementById('webcam');
         const resultDiv = document.getElementById('result');
+        const captureButton = document.getElementById('captureFace');
+        const recognitionButton = document.getElementById('startRecognition');
+        
+        let labeledDescriptors = []; // Array para armazenar os rostos conhecidos
 
         // Inicia a webcam
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then((stream) => {
-                webcam.srcObject = stream;
-            })
-            .catch((err) => {
-                console.log("Erro ao acessar a webcam: ", err);
-            });
+        function startWebcam() {
+            navigator.mediaDevices.getUserMedia({ video: {} })
+                .then((stream) => {
+                    video.srcObject = stream;
+                })
+                .catch((err) => {
+                    console.error('Erro ao acessar a webcam:', err);
+                    resultDiv.innerText = 'Erro ao acessar a webcam.';
+                });
+        }
 
-        // Captura a imagem quando o botão é pressionado
-        captureButton.addEventListener('click', () => {
-            // Desenhar o vídeo no canvas
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(webcam, 0, 0, canvas.width, canvas.height);
-            const imgData = canvas.toDataURL('image/jpeg');
+        // Carrega os modelos do FaceAPI.js
+        async function loadModels() {
+            const MODEL_URL = '/models';
+            await faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL);
+            await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+            await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+        }
 
-            // Envia a imagem para o servidor para reconhecimento facial
-            fetch('/recognize', {
-                method: 'POST',
-                body: JSON.stringify({ image: imgData }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                // Corrigido para usar a interpolação de string corretamente
-                resultDiv.innerHTML = `Pessoa reconhecida: ${data.name}`;
-            })
-            .catch((error) => {
-                console.error('Erro:', error);
-            });
-        });
+        // Captura uma imagem da webcam
+        function captureImage() {
+            const canvas = faceapi.createCanvasFromMedia(video);
+            document.body.append(canvas);
+            const displaySize = { width: video.width, height: video.height };
+            faceapi.matchDimensions(canvas, displaySize);
+
+            // Detecta a face na imagem
+            faceapi.detectSingleFace(video).withFaceLandmarks().withFaceDescriptors()
+                .then(detection => {
+                    if (detection) {
+                        const faceDescriptor = detection.descriptor;
+                        const label = prompt("Qual o nome dessa pessoa?"); // Pergunta o nome
+
+                        // Adiciona a imagem ao banco de dados de faces conhecidas
+                        labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(label, [faceDescriptor]));
+                        resultDiv.innerText = `Rosto de ${label} capturado!`;
+                    } else {
+                        resultDiv.innerText = 'Nenhuma face detectada!';
+                    }
+                });
+        }
+
+        // Compara o rosto da webcam com as faces conhecidas
+        async function startRecognition() {
+            if (labeledDescriptors.length === 0) {
+                resultDiv.innerText = 'Nenhuma face cadastrada para comparação.';
+                return;
+            }
+
+            const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6);
+
+            // Detecta todas as faces na webcam
+            const detections = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors();
+
+            if (detections.length === 0) {
+                resultDiv.innerText = 'Nenhuma face detectada.';
+                return;
+            }
+
+            const results = detections.map(d => faceMatcher.findBestMatch(d.descriptor));
+            resultDiv.innerHTML = results.map(r => `Reconhecido: ${r.toString()}`).join('<br>');
+        }
+
+        // Iniciar a webcam e carregar os modelos
+        async function setup() {
+            await loadModels();
+            startWebcam();
+        }
+
+        // Iniciar reconhecimento quando o botão for clicado
+        recognitionButton.onclick = startRecognition;
+
+        // Captura o rosto da webcam e o armazena como imagem conhecida
+        captureButton.onclick = captureImage;
+
+        // Inicializa tudo
+        setup();
     </script>
 </body>
 </html>
