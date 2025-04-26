@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconhecimento Facial no Navegador</title>
+</head>
+<body>
+    <h2>Reconhecimento Facial com FaceAPI.js</h2>
+    <video id="webcam" width="640" height="480" autoplay></video>
+    <button id="startRecognition">Iniciar Reconhecimento</button>
+    <div id="result"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+    <script>
+        // Inicializando o modelo FaceAPI
+        async function setup() {
+            await faceapi.nets.ssdMobilenetv1.loadFromUri('/models');
+            await faceapi.nets.faceRecognitionNet.loadFromUri('/models');
+            await faceapi.nets.faceLandmark68Net.loadFromUri('/models');
+            startWebcam();
+        }
+
+        // Inicia a captura da webcam
+        function startWebcam() {
+            const video = document.getElementById('webcam');
+            navigator.mediaDevices.getUserMedia({ video: {} })
+                .then((stream) => {
+                    video.srcObject = stream;
+                })
+                .catch((err) => console.error('Erro ao acessar a webcam:', err));
+        }
+
+        // Inicia o reconhecimento quando o botão é clicado
+        document.getElementById('startRecognition').onclick = async () => {
+            const video = document.getElementById('webcam');
+            const detections = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors();
+            
+            if (detections.length > 0) {
+                // Exibe a quantidade de faces detectadas
+                document.getElementById('result').innerHTML = `Faces detectadas: ${detections.length}`;
+                
+                // Desenho de cada face detectada e seus landmarks no vídeo
+                const canvas = faceapi.createCanvasFromMedia(video);
+                document.body.append(canvas);
+                faceapi.matchDimensions(canvas, video);
+                canvas?.detector?.drawDetections();
+                canvas?.detector?.drawFaceLandmarks();
+            } else {
+                document.getElementById('result').innerHTML = 'Nenhuma face detectada!';
+            }
+        }
+
+        // Carregar o modelo ao iniciar a página
+        window.onload = setup;
+    </script>
+</body>
+</html>

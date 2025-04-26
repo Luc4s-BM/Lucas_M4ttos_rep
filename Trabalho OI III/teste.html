@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconhecimento Facial</title>
+</head>
+<body>
+    <h2>Reconhecimento Facial</h2>
+
+    <!-- Webcam para captura de foto -->
+    <video id="webcam" width="640" height="480" autoplay></video>
+    <button id="captureButton">Capturar Imagem</button>
+
+    <canvas id="canvas" style="display:none;"></canvas>
+    <div id="result"></div>
+
+    <script>
+        const captureButton = document.getElementById('captureButton');
+        const webcam = document.getElementById('webcam');
+        const canvas = document.getElementById('canvas');
+        const resultDiv = document.getElementById('result');
+
+        // Inicia a webcam
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                webcam.srcObject = stream;
+            })
+            .catch((err) => {
+                console.log("Erro ao acessar a webcam: ", err);
+            });
+
+        // Captura a imagem quando o botão é pressionado
+        captureButton.addEventListener('click', () => {
+            // Desenhar o vídeo no canvas
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(webcam, 0, 0, canvas.width, canvas.height);
+            const imgData = canvas.toDataURL('image/jpeg');
+
+            // Envia a imagem para o servidor para reconhecimento facial
+            fetch('/recognize', {
+                method: 'POST',
+                body: JSON.stringify({ image: imgData }),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Corrigido para usar a interpolação de string corretamente
+                resultDiv.innerHTML = `Pessoa reconhecida: ${data.name}`;
+            })
+            .catch((error) => {
+                console.error('Erro:', error);
+            });
+        });
+    </script>
+</body>
+</html>
