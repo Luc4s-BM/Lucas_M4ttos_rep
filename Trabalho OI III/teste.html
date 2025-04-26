@@ -5,77 +5,199 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reconhecimento Facial no Navegador</title>
     <style>
-        #canvas {
-            position: absolute;
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            height: 100vh;
+            margin: 0;
         }
+
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .text-container {
+            flex: 1;
+            padding: 20px;
+            background-color: #ffffff;
+            border-right: 4px solid #4A90E2;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        h2 {
+            color: #4A90E2;
+            margin-bottom: 20px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        video {
+            border: 2px solid #9811f3;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            background-color: #4A90E2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #9811f3;
+        }
+
         #result {
             font-size: 20px;
             font-weight: bold;
-            margin-top: 10px;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        hr{
+            border: none;
+            border-top: 3px dashed #4A90E2;
+            margin: 20px auto;            
+        }
+
+        .text-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #4A90E2;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+        }
+
+        .text-content {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #444;
+        }
+
+        .container_title{
+            font-size: 28px; 
+            font-weight: bold;
+            color: #9811f3; 
+            margin-bottom: 15px; 
+            padding-bottom: 5px;
+            align-items: center;
+            justify-content: center;
+            
         }
     </style>
 </head>
 <body>
-    <h2>Reconhecimento Facial com FaceAPI.js</h2>
-    <video id="webcam" width="640" height="480" autoplay muted></video>
-    <button id="startRecognition">Iniciar Reconhecimento</button>
-    <button id="captureFace">Capturar Rosto</button>
-    <div id="result"></div>
-    
+    <div class="container">
+        <div class="text-container">
+            <div class="container_title">
+                <div>Bem-Vindo ao Reconhecimento Facial</div>
+            <hr>
+            <div class="text-title">Como usar:</div>
+            <div class="text-content">
+                <ul>
+                    <li>1º - Ajuste o ambiente com uma iluminação boa, para facilitar o reconhecimento facial.</li>
+                    <br>
+                    <li>2º - Posicione o seu rosto e clique em <strong>"Capturar Rosto"</strong> e digite seu nome.</li>
+                    <br>
+                    <li>3º - Clique em <strong>"Iniciar Reconhecimento"</strong> para testar.</li>
+                    <br>
+                    <li>4º -O  sistema dirá quem foi reconhecido com base no que foi cadastrado.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+            
+
+        <div class="video-container">
+            <h2>Reconhecimento Facial com FaceAPI.js</h2>
+            <video id="webcam" width="640" height="480" autoplay muted></video>
+            <button id="startRecognition">Iniciar Reconhecimento</button>
+            <button id="captureFace">Capturar Rosto</button>
+            <div id="result"></div>
+        </div>
+    </div>
+
+    <!-- Face API -->
     <script src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
-    
+
     <script>
         const video = document.getElementById('webcam');
         const resultDiv = document.getElementById('result');
         const captureButton = document.getElementById('captureFace');
         const recognitionButton = document.getElementById('startRecognition');
-        
-        let labeledDescriptors = []; // Array para armazenar os rostos conhecidos
 
-        // Inicia a webcam
-        function startWebcam() {
-            navigator.mediaDevices.getUserMedia({ video: {} })
-                .then((stream) => {
-                    video.srcObject = stream;
-                })
-                .catch((err) => {
-                    console.error('Erro ao acessar a webcam:', err);
-                    resultDiv.innerText = 'Erro ao acessar a webcam.';
-                });
+        let labeledDescriptors = [];
+
+        async function startWebcam() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
+                video.srcObject = stream;
+            } catch (err) {
+                console.error('Erro ao acessar a webcam:', err);
+                resultDiv.innerText = 'Erro ao acessar a webcam.';
+            }
         }
 
-        // Carrega os modelos do FaceAPI.js
         async function loadModels() {
             const MODEL_URL = '/models';
-            await faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL);
-            await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
-            await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+            try {
+                await faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL);
+                await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+                await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+                resultDiv.innerText = 'Modelos carregados com sucesso!';
+            } catch (e) {
+                resultDiv.innerText = 'Erro ao carregar modelos. Verifique a pasta /models.';
+                console.error(e);
+            }
         }
 
-        // Captura uma imagem da webcam
+        function removePreviousCanvas() {
+            const oldCanvas = document.querySelector('canvas');
+            if (oldCanvas) oldCanvas.remove();
+        }
+
         function captureImage() {
+            removePreviousCanvas();
             const canvas = faceapi.createCanvasFromMedia(video);
             document.body.append(canvas);
             const displaySize = { width: video.width, height: video.height };
             faceapi.matchDimensions(canvas, displaySize);
 
-            // Detecta a face na imagem
             faceapi.detectSingleFace(video).withFaceLandmarks().withFaceDescriptors()
                 .then(detection => {
                     if (detection) {
                         const faceDescriptor = detection.descriptor;
-                        const label = prompt("Qual o nome dessa pessoa?"); // Pergunta o nome
-
-                        // Adiciona a imagem ao banco de dados de faces conhecidas
-                        labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(label, [faceDescriptor]));
-                        resultDiv.innerText = `Rosto de ${label} capturado!`;
+                        const label = prompt("Qual o nome dessa pessoa?");
+                        if (label) {
+                            labeledDescriptors.push(new faceapi.LabeledFaceDescriptors(label, [faceDescriptor]));
+                            resultDiv.innerText = `Rosto de ${label} capturado!`;
+                        }
                     } else {
                         resultDiv.innerText = 'Nenhuma face detectada!';
                     }
                 });
         }
 
-        // Compara o rosto da webcam com as faces conhecidas
         async function startRecognition() {
             if (labeledDescriptors.length === 0) {
                 resultDiv.innerText = 'Nenhuma face cadastrada para comparação.';
@@ -83,8 +205,6 @@
             }
 
             const faceMatcher = new faceapi.FaceMatcher(labeledDescriptors, 0.6);
-
-            // Detecta todas as faces na webcam
             const detections = await faceapi.detectAllFaces(video).withFaceLandmarks().withFaceDescriptors();
 
             if (detections.length === 0) {
@@ -96,20 +216,10 @@
             resultDiv.innerHTML = results.map(r => `Reconhecido: ${r.toString()}`).join('<br>');
         }
 
-        // Iniciar a webcam e carregar os modelos
-        async function setup() {
-            await loadModels();
-            startWebcam();
-        }
-
-        // Iniciar reconhecimento quando o botão for clicado
         recognitionButton.onclick = startRecognition;
-
-        // Captura o rosto da webcam e o armazena como imagem conhecida
         captureButton.onclick = captureImage;
 
-        // Inicializa tudo
-        setup();
+        loadModels().then(startWebcam);
     </script>
 </body>
 </html>
