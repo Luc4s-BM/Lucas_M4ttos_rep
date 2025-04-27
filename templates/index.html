@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reconhecimento Facial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            background-color: #f4f4f9;
+        }
+
+        #video {
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        #result {
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Reconhecimento Facial</h1>
+    <video id="video" width="640" height="480" autoplay></video>
+    <div id="result">Aguardando reconhecimento...</div>
+    <button id="captureButton">Capturar Foto</button>
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/face-api.js"></script>
+    <script defer src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
