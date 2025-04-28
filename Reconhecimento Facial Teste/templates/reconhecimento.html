@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Reconhecimento Facial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1e1e1e, #2d2d2d);
+            color: #fff;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #00ff88;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 720px;
+            margin: 0 auto 2rem;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+
+        #video {
+            width: 100%;
+            display: none;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        button {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            background: #00ff88;
+            color: #1e1e1e;
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
+        }
+
+        button:disabled {
+            background: #666;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .name-input {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        input[type="text"] {
+            padding: 0.8rem;
+            width: 300px;
+            border-radius: 25px;
+            border: 2px solid #00ff88;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        canvas {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema de Reconhecimento Facial</h1>
+        
+        <div class="video-container">
+            <video id="video" width="720" height="560"></video>
+            <canvas id="canvas"></canvas>
+        </div>
+
+        <div class="controls">
+            <button id="startButton">Ligar Câmera</button>
+            <button id="captureButton" disabled>Capturar Rosto</button>
+            <button id="stopButton" disabled>Desligar Câmera</button>
+        </div>
+
+        <div class="name-input">
+            <input type="text" id="nameInput" placeholder="Digite o nome para cadastro">
+        </div>
+
+        <div class="status" id="status"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/face_detection.js"></script>
+
+    <script>
+        const video = document.getElementById('video');
+        const canvas = document.getElementById('canvas');
+        const startButton = document.getElementById('startButton');
+        const captureButton = document.getElementById('captureButton');
+        const stopButton = document.getElementById('stopButton');
+        const nameInput = document.getElementById('nameInput');
+        const statusDiv = document.getElementById('status');
+        const ctx = canvas.getContext('2d');
+
+        let faceDetection;
+        let stream;
+        let facesData = JSON.parse(localStorage.getItem('facesData')) || { names: [], embeddings: [] };
+
+        // Configuração do Face Detection
+        function initializeFaceDetection() {
+            faceDetection = new FaceDetection.FaceDetection({
+                locateFile: (file) => {
+                    return `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`;
+                }
+            });
+
+            faceDetection.setOptions({
+                model: 'short',
+                minDetectionConfidence: 0.5
+            });
+
+            faceDetection.onResults(handleResults);
+        }
+
+        // Manipular resultados da detecção
+        function handleResults(results) {
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            
+            if (results.detections) {
+                for (const detection of results.detections) {
+                    const landmarks = detection.landmarks;
+                    const boundingBox = detection.boundingBox;
+                    
+                    // Desenhar caixa delimitadora
+                    drawBoundingBox(boundingBox);
+                    
+                    // Reconhecimento facial (simplificado)
+                    if (captureMode) {
+                        const embedding = extractEmbedding(landmarks);
+                        recognizeFace(embedding);
+                    }
+                }
+            }
+        }
+
+        function drawBoundingBox(box) {
+            ctx.beginPath();
+            ctx.rect(
+                box.xCenter * canvas.width - box.width * canvas.width / 2,
+                box.yCenter * canvas.height - box.height * canvas.height / 2,
+                box.width * canvas.width,
+                box.height * canvas.height
+            );
+            ctx.strokeStyle = '#00ff88';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        function extractEmbedding(landmarks) {
+            return landmarks.map(point => [point.x, point.y, point.z]).flat();
+        }
+
+        function recognizeFace(embedding) {
+            // Implementar lógica de comparação aqui
+            statusDiv.textContent = "Rosto detectado! Pressione Capturar para cadastrar";
+        }
+
+        // Controles da Câmera
+        startButton.onclick = async () => {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+                video.style.display = 'block';
+                await video.play();
+                
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                
+                initializeFaceDetection();
+                startButton.disabled = true;
+                stopButton.disabled = false;
+                captureButton.disabled = false;
+                
+                // Iniciar detecção
+                requestAnimationFrame(processFrame);
+            } catch (err) {
+                alert('Erro ao acessar a câmera: ' + err);
+            }
+        };
+
+        let captureMode = false;
+        captureButton.onclick = () => {
+            if (!nameInput.value) {
+                alert('Digite um nome antes de capturar!');
+                return;
+            }
+            
+            captureMode = true;
+            statusDiv.textContent = "Capturando dados faciais...";
+            setTimeout(() => {
+                captureMode = false;
+                statusDiv.textContent = "Rosto cadastrado para: " + nameInput.value;
+                nameInput.value = '';
+            }, 1000);
+        };
+
+        stopButton.onclick = () => {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                video.style.display = 'none';
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                startButton.disabled = false;
+                stopButton.disabled = true;
+                captureButton.disabled = true;
+                statusDiv.textContent = "Câmera desativada";
+            }
+        };
+
+        // Processar frame
+        async function processFrame() {
+            if (!video.paused) {
+                await faceDetection.send({ image: video });
+                requestAnimationFrame(processFrame);
+            }
+        }
+
+        // Salvar dados no localStorage
+        function saveData() {
+            localStorage.setItem('facesData', JSON.stringify(facesData));
+        }
+    </script>
+</body>
+</html>
